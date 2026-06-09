@@ -1,0 +1,7 @@
+# Copy to .dev.vars for local Cloudflare Workers dev (wrangler / vite dev)
+# Never commit .dev.vars — use wrangler secret put for production
+
+DATABASE_URL=libsql://your-database-name-your-org.turso.io
+DATABASE_AUTH_TOKEN=your-turso-auth-token
+ADMIN_PASSWORD=change-me-to-a-strong-password
+SESSION_SECRET=change-me-to-a-random-32-character-secret

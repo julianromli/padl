@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1749312000000,
+      "tag": "0000_create_tournaments",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1749312000001,
+      "tag": "0001_add_tournament_detail_fields",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1749312000002,
+      "tag": "0002_add_slug_unique_index",
+      "breakpoints": true
+    }
+  ]
+}

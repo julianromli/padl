@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PADL — B2B Partnership Pitch</title>
+
+  <!-- Satoshi + JetBrains Mono — matches landing page typography -->
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&f[]=jet-brains-mono@400,700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" />
+
+  <style>
+    /* ===========================================
+       CSS CUSTOM PROPERTIES — PADL landing theme
+       Change these to retheme the whole deck
+       =========================================== */
+    :root {
+      --bg-primary: #fafaf9;
+      --bg-secondary: #f5f5f4;
+      --bg-card: #fafaf9;
+      --text-primary: #1c1917;
+      --text-secondary: #78716c;
+      --text-muted: #a8a29e;
+      --accent: #C5F275;
+      --accent-hover: #b3e063;
+      --accent-glow: rgba(197, 242, 117, 0.35);
+      --border: #e7e5e4;
+      --overlay: rgba(0, 0, 0, 0.22);
+
+      --font-display: "Satoshi", sans-serif;
+      --font-body: "Satoshi", sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+      --font-serif: "Instrument Serif", Georgia, serif;
+
+      --subtitle-size: clamp(0.85rem, 1.8vw, 1.15rem);
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --duration-normal: 0.65s;
+    }
+
+    /* ===========================================
+       BASE RESET
+       =========================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===========================================
+       VIEWPORT FITTING — MANDATORY BASE STYLES
+       =========================================== */
+    html, body {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    html {
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .slide-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-height: 100%;
+      overflow: hidden;
+      padding: var(--slide-padding);
+    }
+
+    :root {
+      --title-size: clamp(1.5rem, 5vw, 4rem);
+      --h2-size: clamp(1.25rem, 3.5vw, 2.5rem);
+      --h3-size: clamp(1rem, 2.5vw, 1.75rem);
+      --body-size: clamp(0.75rem, 1.5vw, 1.125rem);
+      --small-size: clamp(0.65rem, 1vw, 0.875rem);
+      --slide-padding: clamp(1rem, 4vw, 4rem);
+      --content-gap: clamp(0.5rem, 2vw, 2rem);
+      --element-gap: clamp(0.25rem, 1vw, 1rem);
+    }
+
+    .card, .container, .content-box {
+      max-width: min(90vw, 1000px);
+      max-height: min(80vh, 700px);
+    }
+
+    .feature-list, .bullet-list {
+      gap: clamp(0.4rem, 1vh, 1rem);
+      list-style: none;
+    }
+
+    .feature-list li, .bullet-list li {
+      font-size: var(--body-size);
+      line-height: 1.4;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+      gap: clamp(0.5rem, 1.5vw, 1rem);
+    }
+
+    img, .image-container img {
+      max-width: 100%;
+      max-height: min(50vh, 400px);
+      object-fit: cover;
+    }
+
+    @media (max-height: 700px) {
+      :root {
+        --slide-padding: clamp(0.75rem, 3vw, 2rem);
+        --content-gap: clamp(0.4rem, 1.5vw, 1rem);
+        --title-size: clamp(1.25rem, 4.5vw, 2.5rem);
+        --h2-size: clamp(1rem, 3vw, 1.75rem);
+      }
+    }
+
+    @media (max-height: 600px) {
+      :root {
+        --slide-padding: clamp(0.5rem, 2.5vw, 1.5rem);
+        --content-gap: clamp(0.3rem, 1vw, 0.75rem);
+        --title-size: clamp(1.1rem, 4vw, 2rem);
+        --body-size: clamp(0.7rem, 1.2vw, 0.95rem);
+      }
+      .nav-dots, .keyboard-hint, .decorative {
+        display: none;
+      }
+    }
+
+    @media (max-height: 500px) {
+      :root {
+        --slide-padding: clamp(0.4rem, 2vw, 1rem);
+        --title-size: clamp(1rem, 3.5vw, 1.5rem);
+        --h2-size: clamp(0.9rem, 2.5vw, 1.25rem);
+        --body-size: clamp(0.65rem, 1vw, 0.85rem);
+      }
+    }
+
+    @media (max-width: 600px) {
+      :root {
+        --title-size: clamp(1.25rem, 7vw, 2.5rem);
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.2s !important;
+      }
+      html {
+        scroll-behavior: auto;
+      }
+    }
+
+    /* ===========================================
+       PROGRESS BAR
+       =========================================== */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: var(--accent);
+      width: 0%;
+      z-index: 9999;
+      transition: width 0.3s ease;
+    }
+
+    /* ===========================================
+       NAVIGATION DOTS
+       =========================================== */
+    .nav-dots {
+      position: fixed;
+      right: clamp(0.75rem, 2vw, 1.5rem);
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(0.35rem, 1vh, 0.6rem);
+      z-index: 9998;
+    }
+
+    .nav-dot {
+      width: clamp(6px, 1vw, 10px);
+      height: clamp(6px, 1vw, 10px);
+      border-radius: 50%;
+      border: 2px solid var(--text-muted);
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+      transition: all 0.3s ease;
+    }
+
+    .nav-dot.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: scale(1.25);
+    }
+
+    .keyboard-hint {
+      position: fixed;
+      bottom: clamp(0.5rem, 2vh, 1rem);
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: var(--small-size);
+      color: var(--text-muted);
+      z-index: 9997;
+      opacity: 0.6;
+    }
+
+    /* ===========================================
+       ANIMATIONS — staggered reveal on scroll
+       =========================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition:
+        opacity var(--duration-normal) var(--ease-out-expo),
+        transform var(--duration-normal) var(--ease-out-expo);
+    }
+
+    .slide.visible .reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal:nth-child(1) { transition-delay: 0.05s; }
+    .reveal:nth-child(2) { transition-delay: 0.12s; }
+    .reveal:nth-child(3) { transition-delay: 0.19s; }
+    .reveal:nth-child(4) { transition-delay: 0.26s; }
+    .reveal:nth-child(5) { transition-delay: 0.33s; }
+    .reveal:nth-child(6) { transition-delay: 0.4s; }
+
+    /* ===========================================
+       TYPOGRAPHY UTILITIES
+       =========================================== */
+    .display-title {
+      font-size: var(--title-size);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+    }
+
+    .slide-heading {
+      font-size: var(--h2-size);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: clamp(0.5rem, 1.5vh, 1rem);
+    }
+
+    .slide-subheading {
+      font-size: var(--subtitle-size);
+      color: var(--text-secondary);
+      font-weight: 500;
+      line-height: 1.5;
+      max-width: min(70ch, 90vw);
+    }
+
+    .serif-accent {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .stat-number {
+      font-family: var(--font-mono);
+      font-size: clamp(2.5rem, 10vw, 6rem);
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ===========================================
+       SLIDE 1 — HERO TITLE (matches landing hero)
+       =========================================== */
+    .slide-hero {
+      padding: div;
+    }
+
+    .hero-frame {
+      position: absolute;
+      inset: clamp(0.75rem, 3vw, 2rem);
+      border-radius: clamp(1rem, 3vw, 1.75rem);
+      overflow: hidden;
+      background: var(--bg-secondary);
+    }
+
+    .hero-frame img {
+      width: 100%;
+      height: 100%;
+      max-height: none;
+      object-fit: cover;
+      transform: scale(1.05);
+      animation: heroZoom 1.4s var(--ease-out-expo) forwards;
+    }
+
+    @keyframes heroZoom {
+      to { transform: scale(1); }
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--overlay);
+    }
+
+    .hero-text {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: clamp(1.5rem, 5vw, 4rem);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--content-gap);
+      color: #fff;
+    }
+
+    .hero-brand {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: clamp(0.25rem, 1.5vw, 1.5rem);
+    }
+
+    .hero-brand .padl {
+      font-size: clamp(3rem, 12vw, 9rem);
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      line-height: 0.9;
+    }
+
+    .hero-brand .tagline {
+      font-size: clamp(1.25rem, 4vw, 3rem);
+      font-weight: 500;
+      opacity: 0.9;
+      line-height: 1.1;
+    }
+
+    .badge-b2b {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--text-primary);
+      font-size: var(--small-size);
+      font-weight: 700;
+      padding: clamp(0.35rem, 1vh, 0.6rem) clamp(0.75rem, 2vw, 1.25rem);
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* ===========================================
+       FEATURE CARDS — landing page style
+       =========================================== */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(0.5rem, 1.5vw, 1.25rem);
+      max-width: min(95vw, 1100px);
+    }
+
+    @media (max-width: 768px) {
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: clamp(0.75rem, 2vw, 1.5rem);
+      padding: clamp(0.75rem, 2.5vw, 2rem);
+    }
+
+    .feature-icon {
+      width: clamp(2rem, 5vw, 3rem);
+      height: clamp(2rem, 5vw, 3rem);
+      background: #fff;
+      border-radius: clamp(0.5rem, 1.5vw, 1rem);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: clamp(0.5rem, 1.5vh, 1.25rem);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+    }
+
+    .feature-card h3 {
+      font-size: var(--h3-size);
+      font-weight: 700;
+      margin-bottom: clamp(0.25rem, 0.8vh, 0.5rem);
+    }
+
+    .feature-card p {
+      font-size: var(--body-size);
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ===========================================
+       BULLET LIST WITH ACCENT DOTS
+       =========================================== */
+    .bullet-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: clamp(0.5rem, 1.5vw, 0.85rem);
+      padding: clamp(0.3rem, 0.8vh, 0.5rem) 0;
+    }
+
+    .bullet-list li::before {
+      content: "";
+      flex-shrink: 0;
+      width: clamp(6px, 1vw, 8px);
+      height: clamp(6px, 1vw, 8px);
+      margin-top: 0.45em;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    /* ===========================================
+       B2B PACKAGE CARDS
+       =========================================== */
+    .package-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: clamp(0.5rem, 1.5vw, 1rem);
+      max-width: min(95vw, 900px);
+    }
+
+    @media (max-width: 700px) {
+      .package-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .package-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: clamp(0.75rem, 2vw, 1.25rem);
+      padding: clamp(0.75rem, 2vw, 1.5rem);
+    }
+
+    .package-card h3 {
+      font-size: var(--h3-size);
+      font-weight: 700;
+      margin-bottom: clamp(0.25rem, 0.8vh, 0.5rem);
+    }
+
+    .package-card p {
+      font-size: var(--body-size);
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    /* ===========================================
+       STAT SLIDE — floating image accents
+       =========================================== */
+    .stat-slide {
+      text-align: center;
+      align-items: center;
+    }
+
+    .floating-thumb {
+      position: absolute;
+      border-radius: clamp(0.5rem, 1.5vw, 1rem);
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      max-height: min(18vh, 120px);
+      width: auto;
+      opacity: 0.85;
+    }
+
+    .floating-thumb img {
+      width: 100%;
+      height: 100%;
+      max-height: min(18vh, 120px);
+      object-fit: cover;
+    }
+
+    .ft-1 { top: 12%; left: 8%; transform: rotate(-6deg); }
+    .ft-2 { top: 8%; right: 6%; transform: rotate(6deg); }
+    .ft-3 { bottom: 18%; left: 12%; transform: rotate(12deg); }
+    .ft-4 { bottom: 14%; right: 10%; transform: rotate(-10deg); }
+
+    @media (max-width: 768px) {
+      .floating-thumb { display: none; }
+    }
+
+    /* ===========================================
+       CTA BUTTON — landing page pill style
+       =========================================== */
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: clamp(0.85rem, 1.8vw, 1.1rem);
+      padding: clamp(0.65rem, 1.5vh, 1rem) clamp(1.25rem, 3vw, 2.5rem);
+      border-radius: 999px;
+      border: none;
+      box-shadow: 0 8px 24px var(--accent-glow);
+      cursor: default;
+      margin-top: clamp(0.5rem, 2vh, 1.5rem);
+    }
+
+    /* ===========================================
+       TWO-COLUMN LAYOUT
+       =========================================== */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(1rem, 3vw, 2.5rem);
+      align-items: center;
+      max-width: min(95vw, 1050px);
+    }
+
+    @media (max-width: 768px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .rounded-image {
+      border-radius: clamp(0.75rem, 2vw, 1.5rem);
+      overflow: hidden;
+      max-height: min(45vh, 360px);
+    }
+
+    .rounded-image img {
+      width: 100%;
+      height: 100%;
+      max-height: min(45vh, 360px);
+      object-fit: cover;
+    }
+
+    /* ===========================================
+       TOURNAMENT MINI CARDS
+       =========================================== */
+    .tournament-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(0.4rem, 1.2vw, 0.85rem);
+      max-width: min(95vw, 1000px);
+    }
+
+    @media (max-width: 768px) {
+      .tournament-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .tournament-mini {
+      border-radius: clamp(0.5rem, 1.5vw, 1rem);
+      overflow: hidden;
+    }
+
+    .tournament-mini .thumb {
+      height: clamp(4rem, 12vh, 7rem);
+      overflow: hidden;
+    }
+
+    .tournament-mini .thumb img {
+      width: 100%;
+      height: 100%;
+      max-height: none;
+      object-fit: cover;
+    }
+
+    .tournament-mini .info {
+      padding: clamp(0.4rem, 1vh, 0.65rem) 0;
+    }
+
+    .tournament-mini .org {
+      font-size: var(--small-size);
+      color: var(--text-secondary);
+    }
+
+    .tournament-mini .title {
+      font-size: clamp(0.7rem, 1.4vw, 0.95rem);
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .progress-bar-mini {
+      height: 4px;
+      background: #e7e5e4;
+      border-radius: 999px;
+      margin-top: 0.35rem;
+      overflow: hidden;
+    }
+
+    .progress-bar-mini span {
+      display: block;
+      height: 100%;
+      background: var(--text-primary);
+      border-radius: 999px;
+    }
+
+    /* ===========================================
+       CLOSING SLIDE
+       =========================================== */
+    .slide-closing {
+      background: var(--text-primary);
+      color: #fff;
+    }
+
+    .slide-closing .slide-subheading {
+      color: #a8a29e;
+    }
+
+    .slide-closing .btn-cta {
+      margin-top: clamp(1rem, 3vh, 2rem);
+    }
+
+    .contact-line {
+      font-size: var(--body-size);
+      color: #d6d3d1;
+      margin-top: clamp(0.75rem, 2vh, 1.5rem);
+    }
+
+    /* ===========================================
+       INLINE EDITING UI
+       =========================================== */
+    .edit-hotzone {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 80px;
+      height: 80px;
+      z-index: 10000;
+      cursor: pointer;
+    }
+
+    .edit-toggle {
+      position: fixed;
+      top: clamp(0.5rem, 2vh, 1rem);
+      left: clamp(0.5rem, 2vw, 1rem);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 10001;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.4rem 0.6rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .edit-toggle.show,
+    .edit-toggle.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .edit-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--accent);
+      color: var(--text-primary);
+      text-align: center;
+      padding: 0.4rem;
+      font-size: var(--small-size);
+      font-weight: 600;
+      z-index: 10002;
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    .edit-banner.active {
+      transform: translateY(0);
+    }
+
+    body.edit-active [contenteditable="true"] {
+      outline: 2px dashed var(--accent);
+      outline-offset: 3px;
+      cursor: text;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Edit mode controls -->
+  <div class="edit-hotzone" aria-hidden="true"></div>
+  <button class="edit-toggle" id="editToggle" title="Edit mode (E)" aria-label="Toggle edit mode">✏️</button>
+  <div class="edit-banner" role="status">Edit mode — click text to edit · Ctrl+S to save file</div>
+
+  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+  <nav class="nav-dots" aria-label="Slide navigation"></nav>
+  <p class="keyboard-hint decorative">↑ ↓ or Space to navigate</p>
+
+  <!-- ===========================================
+       SLIDE 1 — TITLE
+       =========================================== -->
+  <section class="slide slide-hero" data-slide="1">
+    <div class="hero-frame">
+      <img
+        src="https://i.pinimg.com/736x/37/19/83/371983d718f69bc530e1ef0f3cce33ee.jpg"
+        alt="Padel rackets and balls"
+      />
+      <div class="hero-overlay"></div>
+      <div class="hero-text">
+        <div class="hero-brand reveal">
+          <span class="padl">PADL</span>
+          <span class="tagline">B2B<br />Partnership</span>
+        </div>
+        <span class="badge-b2b reveal">Pitch Deck 2026</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================================
+       SLIDE 2 — THE OPPORTUNITY
+       =========================================== -->
+  <section class="slide" data-slide="2">
+    <div class="slide-content">
+      <p class="slide-subheading reveal">The Opportunity</p>
+      <h2 class="slide-heading reveal">
+        Padel is the fastest-growing racket sport — and your team wants in
+      </h2>
+      <ul class="bullet-list reveal" style="margin-top: clamp(0.75rem, 2vh, 1.5rem); max-width: min(65ch, 90vw);">
+        <li>Low barrier to entry — doubles format, social by design</li>
+        <li>Ideal for corporate wellness, team building, and client entertainment</li>
+        <li>Growing demand from companies seeking active, memorable off-sites</li>
+        <li>PADL gives you turnkey access to premium courts and a ready player network</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===========================================
+       SLIDE 3 — WHY PADL
+       =========================================== -->
+  <section class="slide" data-slide="3">
+    <div class="slide-content">
+      <div class="two-col">
+        <div>
+          <p class="slide-subheading reveal">Why PADL</p>
+          <h2 class="slide-heading reveal">
+            Play, Fast As <span class="serif-accent">Flash</span>
+          </h2>
+          <p class="slide-subheading reveal" style="margin-top: 0.5rem;">
+            Experience the best padel courts in the city with premium facilities and easy booking — built for businesses that want results without the logistics headache.
+          </p>
+        </div>
+        <div class="rounded-image reveal">
+          <img
+            src="https://images.unsplash.com/photo-1574271143515-5cddf8da19be?q=80&w=800&auto=format&fit=crop"
+            alt="Premium padel court"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================================
+       SLIDE 4 — B2B OFFERINGS
+       =========================================== -->
+  <section class="slide" data-slide="4">
+    <div class="slide-content">
+      <p class="slide-subheading reveal">What We Offer B2B</p>
+      <h2 class="slide-heading reveal">Partnership packages for every corporate need</h2>
+      <div class="package-grid" style="margin-top: clamp(0.75rem, 2vh, 1.25rem);">
+        <div class="package-card reveal">
+          <h3>Corporate Team Building</h3>
+          <p>Private court blocks, coached intro sessions, and tournament-style formats that get teams moving together.</p>
+        </div>
+        <div class="package-card reveal">
+          <h3>Client Entertainment</h3>
+          <p>Impress partners with premium panoramic courts, pro lighting, and a sport everyone can pick up in one session.</p>
+        </div>
+        <div class="package-card reveal">
+          <h3>Wellness Programs</h3>
+          <p>Recurring court allocations for employee health benefits — trackable usage, flexible scheduling.</p>
+        </div>
+        <div class="package-card reveal">
+          <h3>Branded Tournaments</h3>
+          <p>Co-host competitive or friendly tournaments under your company name with full PADL operations support.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================================
+       SLIDE 5 — CORE FEATURES
+       =========================================== -->
+  <section class="slide" data-slide="5">
+    <div class="slide-content">
+      <p class="slide-subheading reveal">Platform & Facilities</p>
+      <h2 class="slide-heading reveal">Everything your organization needs, one partner</h2>
+      <div class="feature-grid" style="margin-top: clamp(0.75rem, 2vh, 1.25rem);">
+        <div class="feature-card reveal">
+          <div class="feature-icon">▦</div>
+          <h3>Premium Courts</h3>
+          <p>State-of-the-art panoramic courts with professional lighting and WPT-approved turf for the ultimate playing experience.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">⚡</div>
+          <h3>Easy Booking</h3>
+          <p>Book courts in seconds through our platform. Instant confirmation and seamless access to all facilities.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">◎</div>
+          <h3>Active Community</h3>
+          <p>Find partners, join tournaments, and connect with 15,000+ padel enthusiasts in our network.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================================
+       SLIDE 6 — TOURNAMENTS
+       =========================================== -->
+  <section class="slide" data-slide="6">
+    <div class="slide-content">
+      <p class="slide-subheading reveal">Tournament Infrastructure</p>
+      <h2 class="slide-heading reveal">Host corporate tournaments with zero operational lift</h2>
+      <p class="slide-subheading reveal" style="margin-bottom: clamp(0.5rem, 1.5vh, 1rem);">
+        PADL runs competitive and friendly events for all skill levels — your brand on the banner, our team on the ground.
+      </p>
+      <div class="tournament-row reveal">
+        <div class="tournament-mini">
+          <div class="thumb">
+            <img src="https://images.unsplash.com/photo-1554068865-24cecd4e34b8?q=80&w=400&auto=format&fit=crop" alt="Summer Open" />
+          </div>
+          <div class="info">
+            <div class="org">PADL Pro</div>
+            <div class="title">Summer Padel Open Championship</div>
+            <div class="progress-bar-mini"><span style="width: 85%"></span></div>
+          </div>
+        </div>
+        <div class="tournament-mini">
+          <div class="thumb">
+            <img src="https://images.unsplash.com/photo-1530915534664-4ac6423816b7?q=80&w=400&auto=format&fit=crop" alt="Weekend League" />
+          </div>
+          <div class="info">
+            <div class="org">PADL Casual</div>
+            <div class="title">Weekend Amateur League</div>
+            <div class="progress-bar-mini"><span style="width: 45%"></span></div>
+          </div>
+        </div>
+        <div class="tournament-mini">
+          <div class="thumb">
+            <img src="https://images.unsplash.com/photo-1599586120429-48281b6f0ece?q=80&w=400&auto=format&fit=crop" alt="Mixed Doubles" />
+          </div>
+          <div class="info">
+            <div class="org">PADL Community</div>
+            <div class="title">Mixed Doubles Championship</div>
+            <div class="progress-bar-mini"><span style="width: 30%"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================================
+       SLIDE 7 — SOCIAL PROOF / STATS
+       =========================================== -->
+  <section class="slide" data-slide="7">
+    <div class="slide-content stat-slide">
+      <div class="floating-thumb ft-1 decorative">
+        <img src="https://images.unsplash.com/photo-1587280501635-68a0e82cd5ff?q=80&w=200&auto=format&fit=crop" alt="" />
+      </div>
+      <div class="floating-thumb ft-2 decorative">
+        <img src="https://images.unsplash.com/photo-1574271143515-5cddf8da19be?q=80&w=200&auto=format&fit=crop" alt="" />
+      </div>
+      <div class="floating-thumb ft-3 decorative">
+        <img src="https://images.unsplash.com/photo-1600679472829-3044539ce8ed?q=80&w=200&auto=format&fit=crop" alt="" />
+      </div>
+      <div class="floating-thumb ft-4 decorative">
+        <img src="https://images.unsplash.com/photo-1560012057-4372e14c5085?q=80&w=200&auto=format&fit=crop" alt="" />
+      </div>
+
+      <p class="slide-subheading reveal">Network Reach</p>
+      <h2 class="slide-heading reveal" style="max-width: 28ch; margin-inline: auto;">
+        Join the fastest-growing padel community with over
+      </h2>
+      <div class="stat-number reveal" style="margin: clamp(0.5rem, 2vh, 1rem) 0;">15,234<span style="font-size: 0.75em; vertical-align: top;">+</span></div>
+      <p class="slide-subheading reveal">Active players in our network — your next corporate event taps into a ready audience.</p>
+    </div>
+  </section>
+
+  <!-- ===========================================
+       SLIDE 8 — CTA / CLOSE
+       =========================================== -->
+  <section class="slide slide-closing" data-slide="8">
+    <div class="slide-content" style="text-align: center; align-items: center;">
+      <h2 class="display-title reveal" style="color: #fff;">Let's build your<br />padel program.</h2>
+      <p class="slide-subheading reveal">
+        Partner with PADL for premium courts, seamless booking, and tournaments your team will actually talk about.
+      </p>
+      <div class="btn-cta reveal">Schedule a Partnership Call</div>
+      <p class="contact-line reveal">partnerships@padl.com · padl.com</p>
+    </div>
+  </section>
+
+  <script>
+    /* ===========================================
+       SLIDE PRESENTATION CONTROLLER
+       =========================================== */
+    class SlidePresentation {
+      constructor() {
+        this.slides = Array.from(document.querySelectorAll(".slide"));
+        this.currentSlide = 0;
+        this.progressBar = document.querySelector(".progress-bar");
+        this.navDotsContainer = document.querySelector(".nav-dots");
+        this.isScrolling = false;
+
+        this.setupIntersectionObserver();
+        this.setupKeyboardNav();
+        this.setupTouchNav();
+        this.setupWheelNav();
+        this.setupNavDots();
+        this.updateProgress();
+      }
+
+      setupIntersectionObserver() {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                const idx = this.slides.indexOf(entry.target);
+                if (idx !== -1) {
+                  this.currentSlide = idx;
+                  this.updateProgress();
+                  this.updateNavDots();
+                }
+              }
+            });
+          },
+          { threshold: 0.55 }
+        );
+        this.slides.forEach((slide) => observer.observe(slide));
+        if (this.slides[0]) this.slides[0].classList.add("visible");
+      }
+
+      goToSlide(index) {
+        if (index < 0 || index >= this.slides.length || this.isScrolling) return;
+        this.isScrolling = true;
+        this.slides[index].scrollIntoView({ behavior: "smooth" });
+        this.currentSlide = index;
+        this.updateProgress();
+        this.updateNavDots();
+        setTimeout(() => { this.isScrolling = false; }, 700);
+      }
+
+      next() { this.goToSlide(this.currentSlide + 1); }
+      prev() { this.goToSlide(this.currentSlide - 1); }
+
+      setupKeyboardNav() {
+        document.addEventListener("keydown", (e) => {
+          if (e.target.getAttribute("contenteditable") === "true") return;
+          if (e.key === "ArrowDown" || e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
+            e.preventDefault();
+            this.next();
+          } else if (e.key === "ArrowUp" || e.key === "ArrowLeft" || e.key === "PageUp") {
+            e.preventDefault();
+            this.prev();
+          } else if (e.key === "Home") {
+            e.preventDefault();
+            this.goToSlide(0);
+          } else if (e.key === "End") {
+            e.preventDefault();
+            this.goToSlide(this.slides.length - 1);
+          }
+        });
+      }
+
+      setupTouchNav() {
+        let startY = 0;
+        document.addEventListener("touchstart", (e) => {
+          startY = e.touches[0].clientY;
+        }, { passive: true });
+        document.addEventListener("touchend", (e) => {
+          const diff = startY - e.changedTouches[0].clientY;
+          if (Math.abs(diff) > 50) {
+            diff > 0 ? this.next() : this.prev();
+          }
+        }, { passive: true });
+      }
+
+      setupWheelNav() {
+        let wheelTimeout;
+        document.addEventListener("wheel", (e) => {
+          clearTimeout(wheelTimeout);
+          wheelTimeout = setTimeout(() => {
+            if (Math.abs(e.deltaY) > 30) {
+              e.deltaY > 0 ? this.next() : this.prev();
+            }
+          }, 50);
+        }, { passive: true });
+      }
+
+      setupNavDots() {
+        this.navDotsContainer.innerHTML = "";
+        this.slides.forEach((_, i) => {
+          const dot = document.createElement("button");
+          dot.className = "nav-dot" + (i === 0 ? " active" : "");
+          dot.setAttribute("aria-label", `Go to slide ${i + 1}`);
+          dot.addEventListener("click", () => this.goToSlide(i));
+          this.navDotsContainer.appendChild(dot);
+        });
+      }
+
+      updateNavDots() {
+        const dots = this.navDotsContainer.querySelectorAll(".nav-dot");
+        dots.forEach((dot, i) => {
+          dot.classList.toggle("active", i === this.currentSlide);
+        });
+      }
+
+      updateProgress() {
+        const pct = ((this.currentSlide + 1) / this.slides.length) * 100;
+        this.progressBar.style.width = pct + "%";
+        this.progressBar.setAttribute("aria-valuenow", Math.round(pct));
+      }
+    }
+
+    /* ===========================================
+       INLINE EDITOR
+       =========================================== */
+    class InlineEditor {
+      constructor() {
+        this.isActive = false;
+        this.storageKey = "padl-b2b-pitch-edits";
+        this.editableSelector = "h1, h2, h3, p, li, span.badge-b2b, .btn-cta, .contact-line, .padl, .tagline, .org, .title, .stat-number";
+        this.editToggle = document.getElementById("editToggle");
+        this.editBanner = document.querySelector(".edit-banner");
+        this.hotzone = document.querySelector(".edit-hotzone");
+
+        this.loadFromStorage();
+        this.setupEditUI();
+      }
+
+      setupEditUI() {
+        this.editToggle.addEventListener("click", () => this.toggleEditMode());
+        this.hotzone.addEventListener("click", () => this.toggleEditMode());
+
+        let hideTimeout = null;
+        const showToggle = () => {
+          clearTimeout(hideTimeout);
+          this.editToggle.classList.add("show");
+        };
+        const hideToggle = () => {
+          hideTimeout = setTimeout(() => {
+            if (!this.isActive) this.editToggle.classList.remove("show");
+          }, 400);
+        };
+
+        this.hotzone.addEventListener("mouseenter", showToggle);
+        this.hotzone.addEventListener("mouseleave", hideToggle);
+        this.editToggle.addEventListener("mouseenter", () => clearTimeout(hideTimeout));
+        this.editToggle.addEventListener("mouseleave", hideToggle);
+
+        document.addEventListener("keydown", (e) => {
+          if ((e.key === "e" || e.key === "E") && !e.target.getAttribute("contenteditable")) {
+            this.toggleEditMode();
+          }
+          if (e.ctrlKey && e.key === "s") {
+            e.preventDefault();
+            this.saveToStorage();
+            this.exportFile();
+          }
+        });
+
+        document.addEventListener("input", () => {
+          if (this.isActive) this.saveToStorage();
+        });
+      }
+
+      toggleEditMode() {
+        this.isActive = !this.isActive;
+        document.body.classList.toggle("edit-active", this.isActive);
+        this.editToggle.classList.toggle("active", this.isActive);
+        this.editBanner.classList.toggle("active", this.isActive);
+
+        document.querySelectorAll(this.editableSelector).forEach((el) => {
+          if (this.isActive) {
+            el.setAttribute("contenteditable", "true");
+          } else {
+            el.removeAttribute("contenteditable");
+            this.saveToStorage();
+          }
+        });
+      }
+
+      saveToStorage() {
+        const data = {};
+        document.querySelectorAll(this.editableSelector).forEach((el, i) => {
+          data["el-" + i] = el.innerHTML;
+        });
+        try {
+          localStorage.setItem(this.storageKey, JSON.stringify(data));
+        } catch (_) {}
+      }
+
+      loadFromStorage() {
+        try {
+          const raw = localStorage.getItem(this.storageKey);
+          if (!raw) return;
+          const data = JSON.parse(raw);
+          document.querySelectorAll(this.editableSelector).forEach((el, i) => {
+            if (data["el-" + i]) el.innerHTML = data["el-" + i];
+          });
+        } catch (_) {}
+      }
+
+      exportFile() {
+        const editableEls = Array.from(document.querySelectorAll("[contenteditable]"));
+        editableEls.forEach((el) => el.removeAttribute("contenteditable"));
+        const wasActive = this.isActive;
+        document.body.classList.remove("edit-active");
+        this.editToggle.classList.remove("active", "show");
+        this.editBanner.classList.remove("active");
+
+        const html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+        const blob = new Blob([html], { type: "text/html" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "padl-b2b-pitch.html";
+        a.click();
+        URL.revokeObjectURL(a.href);
+
+        if (wasActive) {
+          document.body.classList.add("edit-active");
+          editableEls.forEach((el) => el.setAttribute("contenteditable", "true"));
+          this.editToggle.classList.add("active");
+          this.editBanner.classList.add("active");
+        }
+      }
+    }
+
+    new SlidePresentation();
+    new InlineEditor();
+  </script>
+</body>
+</html>

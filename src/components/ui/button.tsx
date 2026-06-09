@@ -45,7 +45,9 @@ function ButtonCTA(props: Omit<ButtonBaseProps, "className" | "variants">) {
 function ButtonMobile({
 	children,
 	...props
-}: Omit<ButtonBaseProps, "className">) {
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & {
+	children: React.ReactNode;
+}) {
 	return (
 		<button
 			type="button"
